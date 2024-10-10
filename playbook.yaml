@@ -1,6 +1,5 @@
 - name: My first play
   hosts: all
-  gather_facts: false
   tasks:
     - name: Install packages
       become: true
