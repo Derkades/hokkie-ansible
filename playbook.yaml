@@ -1,0 +1,48 @@
+- name: My first play
+  hosts: myhosts
+  tasks:
+    - name: Install packages
+      become: true
+      ansible.builtin.package:
+        name:
+          - mpv
+        state: present
+
+    - name: Add Flathub
+      community.general.flatpak_remote:
+        name: flathub
+        flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+        state: present
+
+    - name: Remove Fedora Flatpaks
+      community.general.flatpak_remote:
+        name: fedora
+        state: absent
+
+    - name: Set wallpaper
+      community.general.kdeconfig:
+        path: .config/plasma-org.kde.plasma.desktop-appletsrc
+        values:
+          - groups: ['Containments', '1']
+            key: wallpaperplugin
+            value: 'org.kde.image'
+          - groups: ['Containments', '1', 'Wallpaper', 'org.kde.image', 'General']
+            key: Image
+            value: /home/raphson/Pictures/bg.png
+
+    - name: Mount /mnt/share
+      become: true
+      ansible.posix.mount:
+        src: 10.131.12.2:/snel/share
+        path: /mnt/share
+        state: present
+        fstype: nfs
+
+    - name: Mount directories in home
+      become: true
+      ansible.posix.mount:
+        src: 10.131.12.2:/snel/share/{{ item }}
+        path: /home/raphson/{{item}}
+        state: present
+        fstype: nfs
+      loop: [Documents, Downloads, Pictures, Desktop, Videos, Music, Arduino]

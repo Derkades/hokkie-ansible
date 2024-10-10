@@ -1,0 +1,6 @@
+myhosts:
+  hosts:
+    vm:
+      ansible_host: 192.168.124.226
+  vars:
+    ansible_user: raphson
