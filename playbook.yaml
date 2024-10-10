@@ -1,28 +1,57 @@
-- name: My first play
+- name: Raphson
   hosts: all
   tasks:
+    - name: Notify
+      ansible.builtin.shell:
+        cmd: "notify-send --app-name Ansible 'Systeem wordt bijgewerkt'"
+
     - name: Install packages
       become: true
       ansible.builtin.package:
         name:
           - firefox
+          - libreoffice
           - mpv
+          - okular
+          - keepassxc
+          - filezilla
+          - minetest
+          - openscad
+          - kate
+          - torbrowser-launcher
+          - htop
+          - screen
+          - prusa-slicer
+          - gnome-mines
+          - gnome-mahjongg
+          - gnome-robots
         state: present
 
     - name: Add Flathub
+      become: true
       community.general.flatpak_remote:
         name: flathub
         flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
         state: present
 
     - name: Remove Fedora Flatpaks
+      become: true
       community.general.flatpak_remote:
         name: fedora
         state: absent
 
+    - name: Install Flatpak packages
+      become: true
+      community.general.flatpak:
+        name:
+          - org.freecadweb.FreeCAD
+          - org.openstreetmap.josm
+          - com.github.qarmin.czkawka
+          - org.nicotine_plus.Nicotine
+
     - name: Set wallpaper
       community.general.kdeconfig:
-        path: .config/plasma-org.kde.plasma.desktop-appletsrc
+        path: /home/raphson/.config/plasma-org.kde.plasma.desktop-appletsrc
         values:
           - groups: ['Containments', '1']
             key: wallpaperplugin

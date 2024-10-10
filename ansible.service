@@ -1,0 +1,10 @@
+[Unit]
+Description=Ansible
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/ansible-pull --url https://github.com/Derkades/hokkie-ansible -i local.ini playbook.yaml
+
+[Install]
+WantedBy=default.target
