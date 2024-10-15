@@ -3,7 +3,27 @@
   tasks:
     - name: Notify
       ansible.builtin.shell:
-        cmd: "notify-send --app-name Ansible 'Systeem wordt bijgewerkt'"
+        cmd: "notify-send --app-name 'Hokkie Ansible' 'Systeem wordt bijgewerkt'"
+
+    - name: Install rpmfusion
+      become: yes
+      ansible.builtin.dnf:
+        name:
+          - 'https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-40.noarch.rpm'
+          - 'https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-40.noarch.rpm'
+        state: present
+
+    - name: Replace ffmpeg-free with ffmpeg
+      become: yes
+      ansible.builtin.dnf:
+        name: ffmpeg
+        allowerasing: true
+
+    - name: Enable H264 repository
+      become: yes
+      community.general.dnf_config_manager:
+        name: fedora-cisco-openh264
+        state: enabled
 
     - name: Install packages
       become: true
@@ -109,7 +129,6 @@
       ansible.posix.mount:
         src: 10.131.12.2:/snel/share
         path: /mnt/share
-        state: present
         state: mounted
         fstype: nfs
 
@@ -118,7 +137,6 @@
       ansible.posix.mount:
         src: 10.131.12.2:/snel/share/{{ item }}
         path: /home/raphson/{{item}}
-        state: present
         state: mounted
         fstype: nfs
       loop: [Documents, Downloads, Pictures, Desktop, Videos, Music, Arduino]
