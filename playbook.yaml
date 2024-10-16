@@ -124,6 +124,20 @@
             key: EnableRemoteFolderThumbnail
             value: 'true'
 
+    - name: Configure power saving
+      community.general.kdeconfig:
+        path: /home/raphson/.config/powerdevilrc
+        values:
+          - groups: ['AC', 'Display']
+            key: DimDisplayWhenIdle
+            value: 'false'
+          - groups: ['AC', 'Display']
+            key: TurnOffDisplayIdleTimeoutSec
+            value: 3600
+          - groups: ['AC', 'SuspendAndShutdown']
+            key: PowerButtonAction
+            value: 8 # shut down
+
     - name: Mount /mnt/share
       become: true
       ansible.posix.mount:
