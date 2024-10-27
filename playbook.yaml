@@ -1,29 +1,44 @@
 - name: Raphson
   hosts: all
   tasks:
+
     - name: Notify
       ansible.builtin.shell:
         cmd: "notify-send --app-name 'Hokkie Ansible' 'Systeem wordt bijgewerkt'"
+      changed_when: False
 
     - name: Install rpmfusion
-      become: yes
+      become: true
       ansible.builtin.dnf:
         name:
           - 'https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-40.noarch.rpm'
           - 'https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-40.noarch.rpm'
         state: present
+        disable_gpg_check: true
 
     - name: Replace ffmpeg-free with ffmpeg
-      become: yes
+      become: true
       ansible.builtin.dnf:
         name: ffmpeg
         allowerasing: true
 
     - name: Enable H264 repository
-      become: yes
+      become: true
       community.general.dnf_config_manager:
         name: fedora-cisco-openh264
         state: enabled
+
+    - name: Install Microsoft key
+      become: true
+      ansible.builtin.rpm_key:
+        state: present
+        key: https://packages.microsoft.com/keys/microsoft.asc
+
+    - name: Install Microsoft repository
+      become: true
+      ansible.builtin.copy:
+        content: "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc"
+        dest: /etc/yum.repos.d/vscode.repo
 
     - name: Install packages
       become: true
@@ -46,6 +61,9 @@
           - gnome-mahjongg
           - gnome-robots
           - qview
+          - code
+          - kde-connect
+          - thunderbird
         state: present
 
     - name: Add Flathub
@@ -79,6 +97,18 @@
             key: wallpaperplugin
             value: 'org.kde.image'
           - groups: ['Containments', '1', 'Wallpaper', 'org.kde.image', 'General']
+            key: Image
+            value: /home/raphson/Pictures/bg.png
+          - groups: ['Containments', '2']
+            key: wallpaperplugin
+            value: 'org.kde.image'
+          - groups: ['Containments', '2', 'Wallpaper', 'org.kde.image', 'General']
+            key: Image
+            value: /home/raphson/Pictures/bg.png
+          - groups: ['Containments', '3']
+            key: wallpaperplugin
+            value: 'org.kde.image'
+          - groups: ['Containments', '3', 'Wallpaper', 'org.kde.image', 'General']
             key: Image
             value: /home/raphson/Pictures/bg.png
 
@@ -132,11 +162,29 @@
             key: DimDisplayWhenIdle
             value: 'false'
           - groups: ['AC', 'Display']
-            key: TurnOffDisplayIdleTimeoutSec
-            value: 3600
+            key: TurnOffDisplayWhenIdle
+            value: 'false'
+          - groups: ['AC', 'SuspendAndShutdown']
+            key: AutoSuspendAction
+            value: 0 # do nothing
           - groups: ['AC', 'SuspendAndShutdown']
             key: PowerButtonAction
             value: 8 # shut down
+
+    - name: Auto login
+      become: true
+      community.general.kdeconfig:
+        path: /etc/sddm.conf.d/kde_settings.conf
+        values:
+          - groups: ['Autologin']
+            key: Relogin
+            value: 'false'
+          - groups: ['Autologin']
+            key: Session
+            value: 'plasma'
+          - groups: ['Autologin']
+            key: User
+            value: 'raphson'
 
     - name: Mount /mnt/share
       become: true
@@ -154,3 +202,13 @@
         state: mounted
         fstype: nfs
       loop: [Documents, Downloads, Pictures, Desktop, Videos, Music, Arduino]
+
+    # - name: Enable mpv hardware decoding
+    #   ansible.builtin.copy:
+    #     content: 'hwdec=auto'
+    #     dest: '/home/raphson/.config/mpv/mpv.conf'
+
+    - name: Notify
+      ansible.builtin.shell:
+        cmd: "notify-send --app-name 'Hokkie Ansible' 'Klaar'"
+      changed_when: False

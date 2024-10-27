@@ -1,6 +1,10 @@
 myhosts:
   hosts:
-    vm:
-      ansible_host: 192.168.124.226
+    links:
+      ansible_host: 10.131.12.100
+    rechts:
+      ansible_host: 10.131.12.101
+    horrie:
+      ansible_host: 10.131.12.102
   vars:
     ansible_user: raphson
