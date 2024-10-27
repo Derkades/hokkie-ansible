@@ -17,6 +17,4 @@ TODO:
  - Ansible voor klokkies?
  - Installeren op computers: casey, links, rechts, kelder TV-laptop, "horrie" muziek computer boven, nog meer?
  - Panels etc
- - Geen schermvergrendeling
  - Grub timeout op 0
- - tijd/datum moet op nederlands

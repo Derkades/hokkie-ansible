@@ -171,6 +171,17 @@
             key: PowerButtonAction
             value: 8 # shut down
 
+    - name: Disable screen lock
+      community.general.kdeconfig:
+        path: /home/raphson/.config/kscreenlockerrc
+        values:
+          - groups: ['Daemon']
+            key: Autolock
+            value: 'false'
+          - groups: ['Daemon']
+            key: Timeout
+            value: '0'
+
     - name: Auto login
       become: true
       community.general.kdeconfig:
