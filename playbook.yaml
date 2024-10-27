@@ -186,6 +186,15 @@
             key: User
             value: 'raphson'
 
+    - name: Tijd op Nederlands
+      become: true
+      community.general.kdeconfig:
+        path: /home/raphson/.config/plasma-localerc
+        values:
+          - groups: ['Formats']
+            key: 'LC_TIME'
+            value: 'nl_NL.UTF-8'
+
     - name: Mount /mnt/share
       become: true
       ansible.posix.mount:
