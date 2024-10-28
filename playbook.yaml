@@ -7,6 +7,17 @@
         cmd: "notify-send --app-name 'Hokkie Ansible' 'Systeem wordt bijgewerkt'"
       changed_when: False
 
+    - name: Install SSH keys
+      ansible.builtin.copy:
+        src: authorized_keys
+        target: /home/raphson/.ssh/authorized_keys
+
+    - name: Set hostname
+      become: true
+      ansible.builtin.copy:
+        content: '{{ inventory_hostname }}'
+        target: /etc/hostname
+
     - name: Install rpmfusion
       become: true
       ansible.builtin.dnf:

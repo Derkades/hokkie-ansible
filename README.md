@@ -15,6 +15,5 @@ Het proces gaat als volgt:
 
 TODO:
  - Ansible voor klokkies?
- - Installeren op computers: casey, links, rechts, kelder TV-laptop, "horrie" muziek computer boven, nog meer?
  - Panels etc
  - Grub timeout op 0
