@@ -1,0 +1,119 @@
+---
+
+# https://github.com/shalva97/kde-configuration-files
+- name: Set wallpaper
+  community.general.kdeconfig:
+    path: /home/raphson/.config/plasma-org.kde.plasma.desktop-appletsrc
+    values:
+      - groups: ['Containments', '1']
+        key: wallpaperplugin
+        value: 'org.kde.image'
+      - groups: ['Containments', '1', 'Wallpaper', 'org.kde.image', 'General']
+        key: Image
+        value: /home/raphson/Pictures/bg.png
+      - groups: ['Containments', '2']
+        key: wallpaperplugin
+        value: 'org.kde.image'
+      - groups: ['Containments', '2', 'Wallpaper', 'org.kde.image', 'General']
+        key: Image
+        value: /home/raphson/Pictures/bg.png
+      - groups: ['Containments', '3']
+        key: wallpaperplugin
+        value: 'org.kde.image'
+      - groups: ['Containments', '3', 'Wallpaper', 'org.kde.image', 'General']
+        key: Image
+        value: /home/raphson/Pictures/bg.png
+
+- name: Enable automatic updates
+  community.general.kdeconfig:
+    path: /home/raphson/.config/PlasmaDiscoverUpdates
+    values:
+      - groups: ['Global']
+        key: UseUnattendedUpdates
+        value: 'true'
+
+- name: Configure Dolphin
+  community.general.kdeconfig:
+    path: /home/raphson/.config/dolphinrc
+    values:
+      - groups: ['General']
+        key: ConfirmClosingMultipleTabs
+        value: 'false'
+      - groups: ['General']
+        key: RememberOpenedTabs
+        value: 'false'
+      - groups: ['General']
+        key: ShowFullPath
+        value: 'true'
+      - groups: ['General']
+        key: ShowFullPathInTitlebar
+        value: 'true'
+
+- name: Hide 'Remote' section in Dolphin
+  community.general.xml:
+    path: /home/raphson/.local/share/user-places.xbel
+    xpath: /xbel/info/metadata/GroupState-Remote-IsHidden
+    value: 'true'
+
+- name: Enable thumbnails for remote folders
+  community.general.kdeconfig:
+    path: /home/raphson/.config/kdeglobals
+    values:
+      - groups: ['PreviewSettings']
+        key: MaximumRemoteSize
+        value: '1073741824' # 1 GiB
+      - groups: ['PreviewSettings']
+        key: EnableRemoteFolderThumbnail
+        value: 'true'
+
+- name: Configure power saving
+  community.general.kdeconfig:
+    path: /home/raphson/.config/powerdevilrc
+    values:
+      - groups: ['AC', 'Display']
+        key: DimDisplayWhenIdle
+        value: 'false'
+      - groups: ['AC', 'Display']
+        key: TurnOffDisplayWhenIdle
+        value: 'false'
+      - groups: ['AC', 'SuspendAndShutdown']
+        key: AutoSuspendAction
+        value: 0 # do nothing
+      - groups: ['AC', 'SuspendAndShutdown']
+        key: PowerButtonAction
+        value: 8 # shut down
+
+- name: Disable screen lock
+  community.general.kdeconfig:
+    path: /home/raphson/.config/kscreenlockerrc
+    values:
+      - groups: ['Daemon']
+        key: Autolock
+        value: 'false'
+      - groups: ['Daemon']
+        key: Timeout
+        value: '0'
+
+- name: Auto login
+  become: true
+  community.general.kdeconfig:
+    path: /etc/sddm.conf.d/kde_settings.conf
+    values:
+      - groups: ['Autologin']
+        key: Relogin
+        value: 'false'
+      - groups: ['Autologin']
+        key: Session
+        value: 'plasma'
+      - groups: ['Autologin']
+        key: User
+        value: 'raphson'
+
+- name: Tijd op Nederlands
+  become: true
+  community.general.kdeconfig:
+    path: /home/raphson/.config/plasma-localerc
+    values:
+      - groups: ['Formats']
+        key: 'LC_TIME'
+        value: 'nl_NL.UTF-8'

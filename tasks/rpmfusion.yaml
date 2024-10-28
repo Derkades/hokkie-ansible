@@ -1,0 +1,22 @@
+---
+
+- name: Install rpmfusion
+  become: true
+  ansible.builtin.dnf:
+    name:
+      - 'https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-40.noarch.rpm'
+      - 'https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-40.noarch.rpm'
+    state: present
+    disable_gpg_check: true
+
+- name: Replace ffmpeg-free with ffmpeg
+  become: true
+  ansible.builtin.dnf:
+    name: ffmpeg
+    allowerasing: true
+
+- name: Enable H264 repository
+  become: true
+  community.general.dnf_config_manager:
+    name: fedora-cisco-openh264
+    state: enabled

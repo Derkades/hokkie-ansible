@@ -1,7 +1,6 @@
 - name: Raphson
   hosts: all
   tasks:
-
     - name: Notify
       ansible.builtin.shell:
         cmd: "notify-send --app-name 'Hokkie Ansible' 'Systeem wordt bijgewerkt'"
@@ -10,46 +9,29 @@
     - name: Install SSH keys
       ansible.builtin.copy:
         src: authorized_keys
-        target: /home/raphson/.ssh/authorized_keys
+        dest: /home/raphson/.ssh/authorized_keys
 
     - name: Set hostname
       become: true
       ansible.builtin.copy:
         content: '{{ inventory_hostname }}'
-        target: /etc/hostname
+        dest: /etc/hostname
 
-    - name: Install rpmfusion
-      become: true
-      ansible.builtin.dnf:
-        name:
-          - 'https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-40.noarch.rpm'
-          - 'https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-40.noarch.rpm'
-        state: present
-        disable_gpg_check: true
+    - name: rpmfusion
+      ansible.builtin.include_tasks:
+        file: tasks/rpmfusion.yaml
 
-    - name: Replace ffmpeg-free with ffmpeg
-      become: true
-      ansible.builtin.dnf:
-        name: ffmpeg
-        allowerasing: true
+    - name: kde
+      ansible.builtin.include_tasks:
+        file: tasks/kde.yaml
 
-    - name: Enable H264 repository
-      become: true
-      community.general.dnf_config_manager:
-        name: fedora-cisco-openh264
-        state: enabled
+    - name: nfs
+      ansible.builtin.include_tasks:
+        file: tasks/nfs.yaml
 
-    - name: Install Microsoft key
-      become: true
-      ansible.builtin.rpm_key:
-        state: present
-        key: https://packages.microsoft.com/keys/microsoft.asc
-
-    - name: Install Microsoft repository
-      become: true
-      ansible.builtin.copy:
-        content: "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc"
-        dest: /etc/yum.repos.d/vscode.repo
+    - name: vscode
+      ansible.builtin.include_tasks:
+        file: tasks/vscode.yaml
 
     - name: Install packages
       become: true
@@ -72,7 +54,6 @@
           - gnome-mahjongg
           - gnome-robots
           - qview
-          - code
           - kde-connect
           - thunderbird
         state: present
@@ -98,141 +79,6 @@
           - org.openstreetmap.josm
           - com.github.qarmin.czkawka
           - org.nicotine_plus.Nicotine
-
-    # https://github.com/shalva97/kde-configuration-files
-    - name: Set wallpaper
-      community.general.kdeconfig:
-        path: /home/raphson/.config/plasma-org.kde.plasma.desktop-appletsrc
-        values:
-          - groups: ['Containments', '1']
-            key: wallpaperplugin
-            value: 'org.kde.image'
-          - groups: ['Containments', '1', 'Wallpaper', 'org.kde.image', 'General']
-            key: Image
-            value: /home/raphson/Pictures/bg.png
-          - groups: ['Containments', '2']
-            key: wallpaperplugin
-            value: 'org.kde.image'
-          - groups: ['Containments', '2', 'Wallpaper', 'org.kde.image', 'General']
-            key: Image
-            value: /home/raphson/Pictures/bg.png
-          - groups: ['Containments', '3']
-            key: wallpaperplugin
-            value: 'org.kde.image'
-          - groups: ['Containments', '3', 'Wallpaper', 'org.kde.image', 'General']
-            key: Image
-            value: /home/raphson/Pictures/bg.png
-
-    - name: Enable automatic updates
-      community.general.kdeconfig:
-        path: /home/raphson/.config/PlasmaDiscoverUpdates
-        values:
-          - groups: ['Global']
-            key: UseUnattendedUpdates
-            value: 'true'
-
-    - name: Configure Dolphin
-      community.general.kdeconfig:
-        path: /home/raphson/.config/dolphinrc
-        values:
-          - groups: ['General']
-            key: ConfirmClosingMultipleTabs
-            value: 'false'
-          - groups: ['General']
-            key: RememberOpenedTabs
-            value: 'false'
-          - groups: ['General']
-            key: ShowFullPath
-            value: 'true'
-          - groups: ['General']
-            key: ShowFullPathInTitlebar
-            value: 'true'
-
-    - name: Hide 'Remote' section in Dolphin
-      community.general.xml:
-        path: /home/raphson/.local/share/user-places.xbel
-        xpath: /xbel/info/metadata/GroupState-Remote-IsHidden
-        value: 'true'
-
-    - name: Enable thumbnails for remote folders
-      community.general.kdeconfig:
-        path: /home/raphson/.config/kdeglobals
-        values:
-          - groups: ['PreviewSettings']
-            key: MaximumRemoteSize
-            value: '1073741824' # 1 GiB
-          - groups: ['PreviewSettings']
-            key: EnableRemoteFolderThumbnail
-            value: 'true'
-
-    - name: Configure power saving
-      community.general.kdeconfig:
-        path: /home/raphson/.config/powerdevilrc
-        values:
-          - groups: ['AC', 'Display']
-            key: DimDisplayWhenIdle
-            value: 'false'
-          - groups: ['AC', 'Display']
-            key: TurnOffDisplayWhenIdle
-            value: 'false'
-          - groups: ['AC', 'SuspendAndShutdown']
-            key: AutoSuspendAction
-            value: 0 # do nothing
-          - groups: ['AC', 'SuspendAndShutdown']
-            key: PowerButtonAction
-            value: 8 # shut down
-
-    - name: Disable screen lock
-      community.general.kdeconfig:
-        path: /home/raphson/.config/kscreenlockerrc
-        values:
-          - groups: ['Daemon']
-            key: Autolock
-            value: 'false'
-          - groups: ['Daemon']
-            key: Timeout
-            value: '0'
-
-    - name: Auto login
-      become: true
-      community.general.kdeconfig:
-        path: /etc/sddm.conf.d/kde_settings.conf
-        values:
-          - groups: ['Autologin']
-            key: Relogin
-            value: 'false'
-          - groups: ['Autologin']
-            key: Session
-            value: 'plasma'
-          - groups: ['Autologin']
-            key: User
-            value: 'raphson'
-
-    - name: Tijd op Nederlands
-      become: true
-      community.general.kdeconfig:
-        path: /home/raphson/.config/plasma-localerc
-        values:
-          - groups: ['Formats']
-            key: 'LC_TIME'
-            value: 'nl_NL.UTF-8'
-
-    - name: Mount /mnt/share
-      become: true
-      ansible.posix.mount:
-        src: 10.131.12.2:/snel/share
-        path: /mnt/share
-        state: mounted
-        fstype: nfs
-
-    - name: Mount directories in home
-      become: true
-      ansible.posix.mount:
-        src: 10.131.12.2:/snel/share/{{ item }}
-        path: /home/raphson/{{item}}
-        state: mounted
-        fstype: nfs
-      loop: [Documents, Downloads, Pictures, Desktop, Videos, Music, Arduino]
 
     # - name: Enable mpv hardware decoding
     #   ansible.builtin.copy:
