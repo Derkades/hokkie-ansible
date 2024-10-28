@@ -1,0 +1,21 @@
+- name: Specs
+  hosts: all
+  tasks:
+    - name: install required packages
+      become: true
+      ansible.builtin.package:
+        name:
+         - colorized-logs
+         - fastfetch
+
+    - name: fastfetch
+      ansible.builtin.shell:
+        cmd: "fastfetch --logo none | ansi2txt"
+      register: fetch
+
+    - name: print
+      ansible.builtin.lineinfile:
+        dest: specs.txt
+        line: "{{ fetch.stdout }}"
+        create: true
+      delegate_to: localhost

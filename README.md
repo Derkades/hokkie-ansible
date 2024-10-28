@@ -31,3 +31,15 @@ Voer playbook uit voor alle computers:
 ```
 ansible-playbook -i inventory.yaml playbook.yaml
 ```
+
+Verzamel specs naar een specs.txt bestand in je home map:
+```
+Voer playbook uit voor alle computers:
+```
+ansible-playbook -i inventory.yaml specs.yaml
+```
+
+Als je een playbook wil testen op je eigen computer:
+```
+ansible-playbook -i local.ini specs.yaml
+```
