@@ -1,11 +1,10 @@
 ---
-
 - name: Install rpmfusion
   become: true
   ansible.builtin.dnf:
     name:
-      - 'https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-40.noarch.rpm'
-      - 'https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-40.noarch.rpm'
+      - 'https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ansible_distribution_version}}.noarch.rpm'
+      - 'https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ansible_distribution_version}}.noarch.rpm'
     state: present
     disable_gpg_check: true
 
@@ -15,8 +14,9 @@
     name: ffmpeg
     allowerasing: true
 
-- name: Enable H264 repository
-  become: true
-  community.general.dnf_config_manager:
-    name: fedora-cisco-openh264
-    state: enabled
+# disabled, broken in F41
+# - name: Enable H264 repository
+#   become: true
+#   community.general.dnf_config_manager:
+#     name: fedora-cisco-openh264
+#     state: enabled

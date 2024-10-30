@@ -34,8 +34,6 @@ ansible-playbook -i inventory.yaml playbook.yaml
 
 Verzamel specs naar een specs.txt bestand in je home map:
 ```
-Voer playbook uit voor alle computers:
-```
 ansible-playbook -i inventory.yaml specs.yaml
 ```
 
