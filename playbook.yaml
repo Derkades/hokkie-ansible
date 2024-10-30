@@ -17,22 +17,6 @@
         content: '{{ inventory_hostname }}'
         dest: /etc/hostname
 
-    - name: rpmfusion
-      ansible.builtin.include_tasks:
-        file: tasks/rpmfusion.yaml
-
-    - name: kde
-      ansible.builtin.include_tasks:
-        file: tasks/kde.yaml
-
-    - name: nfs
-      ansible.builtin.include_tasks:
-        file: tasks/nfs.yaml
-
-    - name: vscode
-      ansible.builtin.include_tasks:
-        file: tasks/vscode.yaml
-
     - name: Install packages
       become: true
       ansible.builtin.package:
@@ -57,6 +41,26 @@
           - kde-connect
           - thunderbird
         state: present
+
+    - name: rpmfusion
+      ansible.builtin.include_tasks:
+        file: tasks/rpmfusion.yaml
+
+    - name: kde
+      ansible.builtin.include_tasks:
+        file: tasks/kde.yaml
+
+    - name: nfs
+      ansible.builtin.include_tasks:
+        file: tasks/nfs.yaml
+
+    - name: vscode
+      ansible.builtin.include_tasks:
+        file: tasks/vscode.yaml
+
+    - name: boot splash screen
+      ansible.builtin.include_tasks:
+        file: tasks/plymouth.yaml
 
     - name: Add Flathub
       become: true
