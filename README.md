@@ -21,10 +21,17 @@ TODO:
 
 ## Ansible playbook gebruiken
 
-Installeer eerst Ansible, met bijvoorbeeld:
+Installeer eerst Ansible.
+
+Op Fedora:
 ```
-sudo apt install ansible
 sudo dnf install ansible
+```
+
+Op Debian/Ubuntu;
+```
+sudo apt install pipx
+pipx install --include-deps ansible
 ```
 
 Voer playbook uit voor alle computers:
