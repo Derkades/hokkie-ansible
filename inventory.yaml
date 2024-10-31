@@ -6,5 +6,9 @@ myhosts:
       ansible_host: 10.131.12.101
     horrie:
       ansible_host: 10.131.12.102
+    wurmentoppie:
+      ansible_host: 10.131.12.103
+    mat:
+      ansible_host: 10.131.12.104
   vars:
     ansible_user: raphson
