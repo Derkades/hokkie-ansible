@@ -1,15 +1,17 @@
 - name: Upgrade
   hosts: all
   tasks:
-    - name: 'Download Fedora 41'
-      when: 'ansible_distribution_version == "40"'
-      become: true
+    - name: Notify
       ansible.builtin.shell:
-        cmd: 'dnf --assumeyes system-upgrade download --releasever=41'
-      register: 'download41'
+        cmd: "notify-send --app-name 'Hokkie Ansible' 'Updates worden gedownload, computer zal zo opnieuw opstarten'"
+      changed_when: False
 
-    - name: 'Restart to apply update'
-      when: 'download41.changed'
+    - name: Download updates
       become: true
       ansible.builtin.shell:
-        cmd: 'dnf system-upgrade reboot'
+        cmd: 'dnf --assumeyes offline-upgrade download'
+
+    - name: Reboot to install updates
+      become: true
+      ansible.builtin.shell:
+        cmd: 'dnf --assumeyes offline-upgrade reboot'
