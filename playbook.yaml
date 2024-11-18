@@ -46,6 +46,7 @@
           - qview
           - kde-connect
           - thunderbird
+          - cura
         state: present
 
     - name: rpmfusion
