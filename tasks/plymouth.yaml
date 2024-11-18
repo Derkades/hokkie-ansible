@@ -20,5 +20,5 @@
 - name: Set raphson logo
   become: true
   ansible.builtin.copy:
-    src: raphson.png
+    src: raphson-small.png
     dest: /usr/share/plymouth/themes/spinner/watermark.png
