@@ -15,4 +15,5 @@
     path: /home/raphson/{{item}}
     state: mounted
     fstype: nfs
+    opts: nofail
   loop: [Documents, Downloads, Pictures, Desktop, Videos, Music, Arduino]
