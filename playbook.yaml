@@ -6,11 +6,12 @@
         cmd: "notify-send --app-name 'Hokkie Ansible' 'Systeem wordt bijgewerkt'"
       changed_when: False
 
-      # F41 bug, python3-libdnf5 is not a dependency of ansible and must be manually installed first
-    - name: Manually install libdnf5
+      # In Fedora 41 python3-libdnf5 must be manually installed first
+    - name: Install libdnf5
       become: true
-      ansible.builtin.shell:
-        cmd: dnf --assumeyes install python3-libdnf5
+      ansible.builtin.dnf:
+        name: python3-libdnf5
+        state: present
 
     - name: Install SSH keys
       ansible.builtin.copy:
