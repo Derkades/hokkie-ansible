@@ -50,6 +50,12 @@
           - cura
         state: present
 
+    - name: Install Scratch for Arduino
+      ansible.builtin.dnf:
+        name:
+          - 'https://downloads.rkslot.nl/software/S4A15.rpm'
+        state: present
+
     - name: rpmfusion
       ansible.builtin.include_tasks:
         file: tasks/rpmfusion.yaml
