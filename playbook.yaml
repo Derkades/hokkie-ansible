@@ -50,12 +50,6 @@
           - cura
         state: present
 
-    - name: Install Scratch for Arduino
-      ansible.builtin.dnf:
-        name:
-          - 'https://downloads.rkslot.nl/software/S4A15.rpm'
-        state: present
-
     - name: rpmfusion
       ansible.builtin.include_tasks:
         file: tasks/rpmfusion.yaml
@@ -97,6 +91,13 @@
           - org.openstreetmap.josm
           - com.github.qarmin.czkawka
           - org.nicotine_plus.Nicotine
+
+    - name: Install Snap for Arduino
+      become: true
+      community.general.flatpak:
+        name:
+          - 'https://downloads.rkslot.nl/software/snap4arduino.flatpak'
+        state: present
 
     # - name: Enable mpv hardware decoding
     #   ansible.builtin.copy:
