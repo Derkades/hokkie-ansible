@@ -10,5 +10,9 @@ myhosts:
       ansible_host: 10.131.12.103
     mat:
       ansible_host: 10.131.12.104
+    kledertv:
+      ansible_host: 10.131.12.105
+    casey:
+      ansible_host: 10.131.12.106
   vars:
     ansible_user: raphson
