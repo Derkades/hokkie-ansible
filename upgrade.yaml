@@ -6,6 +6,11 @@
         cmd: "notify-send --app-name 'Hokkie Ansible' 'Updates worden gedownload, computer zal zo opnieuw opstarten'"
       changed_when: False
 
+    - name: Update flatpaks
+      become: true
+      ansible.builtin.shell:
+        cmd: flatpak upgrade -y
+
     - name: Download updates
       become: true
       ansible.builtin.shell:
