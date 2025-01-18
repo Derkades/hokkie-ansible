@@ -1,0 +1,43 @@
+- name: Raphson
+  hosts: all
+  tasks:
+    - name: Create users
+      ansible.builtin.user:
+        name: "{{ item }}"
+        groups: users
+        create_home: yes
+        shell: /bin/bash
+      loop: "{{ users }}"
+
+    - name: Set home directory permissions
+      ansible.builtin.file:
+        path: "/home/{{ item }}"
+        owner: "{{ item }}"
+        group: users
+        mode: '0700'
+      loop: "{{ users }}"
+
+    - name: Create file backup datasets
+      community.general.zfs:
+        name: "backup/file/{{ item }}"
+        state: present
+      loop: "{{ users }}"
+
+    - name: Set file backup permissions
+      ansible.builtin.file:
+        path: "/backup/file/{{ item }}"
+        owner: "{{ item }}"
+        group: users
+        mode: '0700'
+      loop: "{{ users }}"
+
+    - name: Create zfs backup datasets
+      community.general.zfs:
+        name: "backup/zfs/{{ item }}"
+        state: present
+      loop: "{{ users }}"
+
+    - name: Upgrade packages
+      ansible.builtin.apt:
+        name: "*"
+        state: latest

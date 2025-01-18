@@ -48,3 +48,9 @@ Als je een playbook wil testen op je eigen computer:
 ```
 ansible-playbook -i local.ini specs.yaml
 ```
+
+# Gog
+```
+cd gog
+ansible-playbook -i inventory.yaml gog.yaml
+```
