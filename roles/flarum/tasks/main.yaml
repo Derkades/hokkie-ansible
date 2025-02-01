@@ -28,3 +28,23 @@
   systemd_service:
     name: nginx
     state: restarted
+
+- name: Increase post_max_size
+  lineinfile:
+    path: /etc/php/8.2/fpm/php.ini
+    search_string: post_max_size
+    line: 'post_max_size = 50M'
+  register: post_max_size
+
+- name: Increase upload_max_filesize
+  lineinfile:
+    path: /etc/php/8.2/fpm/php.ini
+    search_string: upload_max_filesize
+    line: 'upload_max_filesize = 50M'
+  register: upload_max_filesize
+
+- name: Restart php-fpm
+  when: post_max_size.changed or upload_max_filesize.changed
+  systemd_service:
+    name: php8.2-fpm
+    state: restarted
