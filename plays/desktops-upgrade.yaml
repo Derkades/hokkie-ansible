@@ -1,5 +1,5 @@
 - name: Upgrade
-  hosts: all
+  hosts: desktops
   tasks:
     - name: Notify
       ansible.builtin.shell:

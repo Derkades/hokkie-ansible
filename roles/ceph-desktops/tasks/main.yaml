@@ -1,0 +1,35 @@
+---
+- name: install packages
+  package:
+    name: ceph-common
+
+- name: install configuration
+  become: yes
+  copy:
+    src: ceph.conf
+    dest: /etc/ceph/ceph.conf
+
+- name: install keyring
+  become: yes
+  copy:
+    src: ceph.client.desktops.keyring
+    dest: /etc/ceph/client.desktops.keyring
+
+- name: mount /mnt/share
+  become: true
+  ansible.posix.mount:
+    src: :/desktops
+    path: /mnt/share
+    state: mounted
+    fstype: ceph
+    opts: name=desktops
+
+- name: mount directories in home
+  become: true
+  ansible.posix.mount:
+    src: :/desktops/{{ item }}
+    path: /home/raphson/{{item}}
+    state: mounted
+    fstype: ceph
+    opts: name=desktops
+  loop: [Documents, Downloads, Pictures, Desktop, Videos, Music, Arduino]

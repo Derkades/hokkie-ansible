@@ -1,6 +1,13 @@
 ---
 
 # https://github.com/shalva97/kde-configuration-files
+
+- name: Copy wallpaper
+  become: true
+  copy:
+    src: bg.png
+    dest: /usr/local/share/bg.png
+
 - name: Set wallpaper
   community.general.kdeconfig:
     path: /home/raphson/.config/plasma-org.kde.plasma.desktop-appletsrc
@@ -10,19 +17,19 @@
         value: 'org.kde.image'
       - groups: ['Containments', '1', 'Wallpaper', 'org.kde.image', 'General']
         key: Image
-        value: /home/raphson/Pictures/bg.png
+        value: /usr/local/share/bg.png
       - groups: ['Containments', '2']
         key: wallpaperplugin
         value: 'org.kde.image'
       - groups: ['Containments', '2', 'Wallpaper', 'org.kde.image', 'General']
         key: Image
-        value: /home/raphson/Pictures/bg.png
+        value: /usr/local/share/bg.png
       - groups: ['Containments', '3']
         key: wallpaperplugin
         value: 'org.kde.image'
       - groups: ['Containments', '3', 'Wallpaper', 'org.kde.image', 'General']
         key: Image
-        value: /home/raphson/Pictures/bg.png
+        value: /usr/local/share/bg.png
 
 - name: Enable automatic updates
   community.general.kdeconfig:

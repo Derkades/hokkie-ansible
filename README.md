@@ -15,11 +15,11 @@ Het proces gaat als volgt:
 
 TODO:
  - Ansible voor klokkies?
- - Panels etc
+ - KDE Panels
  - Grub timeout op 0
 
 
-## Ansible playbook gebruiken
+## Introductie
 
 Installeer eerst Ansible.
 
@@ -34,23 +34,29 @@ sudo apt install pipx
 pipx install --include-deps ansible
 ```
 
+## Desktops
+
 Voer playbook uit voor alle computers:
 ```
-ansible-playbook -i inventory.yaml playbook.yaml
+ansible-playbook plays/desktops.yaml
 ```
 
-Verzamel specs naar een specs.txt bestand in je home map:
+Verzamel specs naar een specs.txt bestand in je home dir:
 ```
-ansible-playbook -i inventory.yaml specs.yaml
+ansible-playbook plays/specs.yaml
 ```
 
-Als je een playbook wil testen op je eigen computer:
+Updates doen:
 ```
-ansible-playbook -i local.ini specs.yaml
+ansible-playbook plays/desktops-upgrade.yaml
 ```
 
 # Gog
 ```
-cd gog
-ansible-playbook -i inventory.yaml gog.yaml
+ansible-playbook plays/gog.yaml
+```
+
+# 106 forum
+```
+ansible-playbook plays/gog.yaml
 ```

@@ -1,5 +1,9 @@
-- name: Raphson
-  hosts: all
+- name: Gog
+  hosts: gog_group
+
+  roles:
+    - role: base
+
   tasks:
     - name: Create users
       ansible.builtin.user:
@@ -36,8 +40,3 @@
         name: "backup/zfs/{{ item }}"
         state: present
       loop: "{{ users }}"
-
-    - name: Upgrade packages
-      ansible.builtin.apt:
-        name: "*"
-        state: latest

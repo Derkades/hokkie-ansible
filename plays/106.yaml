@@ -1,0 +1,6 @@
+- name: Forum
+  hosts: forum
+
+  roles:
+    - role: ../roles/base
+    - role: ../roles/flarum

@@ -1,35 +1,29 @@
 - name: Raphson
-  hosts: all
+  hosts: desktops
+
   tasks:
     - name: Notify
-      ansible.builtin.shell:
+      shell:
         cmd: "notify-send --app-name 'Hokkie Ansible' 'Systeem wordt bijgewerkt'"
       changed_when: False
 
       # In Fedora 41 python3-libdnf5 must be manually installed first
     - name: Install libdnf5
       become: true
-      ansible.builtin.shell:
+      shell:
         cmd: dnf --assumeyes install python3-libdnf5
 
-    - name: Install SSH keys
-      ansible.builtin.copy:
-        src: authorized_keys
-        dest: /home/raphson/.ssh/authorized_keys
-
-    - name: Set hostname
-      become: true
-      ansible.builtin.copy:
-        content: '{{ inventory_hostname }}'
-        dest: /etc/hostname
-
     - name: rpmfusion
-      ansible.builtin.include_tasks:
-        file: tasks/rpmfusion.yaml
+      include_role:
+        name: ../roles/rpmfusion
+
+    - name: Apply base configuration
+      include_role:
+        name: ../roles/base
 
     - name: Install packages
       become: true
-      ansible.builtin.package:
+      package:
         name:
           - firefox
           - libreoffice
@@ -41,7 +35,6 @@
           - openscad
           - kate
           - torbrowser-launcher
-          - htop
           - screen
           - prusa-slicer
           - gnome-mines
@@ -54,20 +47,20 @@
         state: present
 
     - name: kde
-      ansible.builtin.include_tasks:
-        file: tasks/kde.yaml
+      include_tasks:
+        file: ../tasks/kde.yaml
 
-    - name: nfs
-      ansible.builtin.include_tasks:
-        file: tasks/nfs.yaml
+    - name: ceph
+      include_role:
+        name: ../roles/ceph-desktops
 
     - name: vscode
-      ansible.builtin.include_tasks:
-        file: tasks/vscode.yaml
+      include_role:
+        name: ../roles/vscode
 
     - name: boot splash screen
-      ansible.builtin.include_tasks:
-        file: tasks/plymouth.yaml
+      include_role:
+        name: ../roles/raphson-boot
       when: inventory_hostname != "kledertv"
 
     - name: Add Flathub
@@ -93,21 +86,21 @@
           - org.nicotine_plus.Nicotine
 
     - name: Download Snap4Arduino
-      ansible.builtin.get_url:
+      get_url:
         url: 'https://downloads.rkslot.nl/software/snap4arduino.flatpak'
         dest: /tmp/snap4arduino.flatpak
 
     - name: Install Snap for Arduino
       become: true
-      ansible.builtin.shell:
+      shell:
         cmd: flatpak install -y /tmp/snap4arduino.flatpak || true
 
     # - name: Enable mpv hardware decoding
-    #   ansible.builtin.copy:
+    #   copy:
     #     content: 'hwdec=auto'
     #     dest: '/home/raphson/.config/mpv/mpv.conf'
 
     - name: Notify
-      ansible.builtin.shell:
+      shell:
         cmd: "notify-send --app-name 'Hokkie Ansible' 'Klaar'"
       changed_when: False

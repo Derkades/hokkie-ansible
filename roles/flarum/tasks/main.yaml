@@ -1,0 +1,30 @@
+---
+
+# https://docs.flarum.org/install/
+- name: Install required packages
+  package:
+    name:
+      - nginx
+      - php-fpm
+      - php-curl
+      - php-dom
+      - php-fileinfo
+      - php-gd
+      - php-json
+      - php-mbstring
+      - php-tokenizer
+      - php-mysql
+      - php-zip
+      - mariadb-server
+
+- name: Install nginx configuration
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+  register: nginx
+
+- name: Restart nginx
+  when: nginx.changed
+  systemd_service:
+    name: nginx
+    state: restarted
