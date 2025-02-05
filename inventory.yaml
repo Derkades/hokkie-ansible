@@ -20,8 +20,7 @@ desktops:
 gog_group:
   hosts:
     gog:
-      ansible_host: gog.rkslot.nl
-      ansible_port: 2000
+      ansible_host: 10.131.12.19
       ansible_user: root
   vars:
     users:
