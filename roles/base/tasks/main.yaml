@@ -8,7 +8,8 @@
 - name: Install base packages
   package:
     name:
-      - 'htop'
+      - htop
+      - ncdu
 
 - name: Set hostname
   become: true
