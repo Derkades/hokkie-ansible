@@ -2,6 +2,7 @@
   hosts: raphson
 
   roles:
+    - role: ../roles/base
     - role: ../roles/runitor
 
   tasks:
