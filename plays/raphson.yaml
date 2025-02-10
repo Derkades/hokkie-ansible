@@ -3,3 +3,10 @@
 
   roles:
     - role: ../roles/runitor
+
+  tasks:
+    - name: badminton cron
+      copy:
+        content: >
+          runitor -api-url https://healthchecks.rkslot.nl/ping -uuid 2b0ffd4e-749d-408d-851c-960c78a33cd2 -- bash -c "cd /var/www/html/badminton && su www-data -s /usr/bin/git -- pull"
+        dest: /etc/cron.d/badminton
