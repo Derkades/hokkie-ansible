@@ -1,5 +1,5 @@
-- name: Forum
-  hosts: forum
+- name: 106 Forum
+  hosts: 106_vm
 
   roles:
     - role: ../roles/base

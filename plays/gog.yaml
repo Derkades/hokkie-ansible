@@ -1,5 +1,5 @@
 - name: Gog
-  hosts: gog_group
+  hosts: gog
 
   roles:
     - role: ../roles/base

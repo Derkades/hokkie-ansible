@@ -34,14 +34,11 @@ gog_group:
       - jhasselaar
       - mvalks
 
-forum:
+vm:
   hosts:
     106_vm:
       ansible_host: 10.131.12.21
       ansible_user: root
-
-raphson:
-  hosts:
     raphson_vm:
       ansible_host: 10.131.12.20
       ansible_user: root

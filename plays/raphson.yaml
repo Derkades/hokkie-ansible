@@ -1,5 +1,5 @@
 - name: Raphson
-  hosts: raphson
+  hosts: raphson_vm
 
   roles:
     - role: ../roles/base
