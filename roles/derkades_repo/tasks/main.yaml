@@ -1,0 +1,12 @@
+---
+
+- name: add apt key
+  become: yes
+  get_url:
+    url: https://deb.rkslot.nl/derkades.asc
+    dest: /etc/apt/trusted.gpg.d/derkades.asc
+
+- name: add apt repo
+  apt_repository:
+    repo: "deb [arch=amd64] https://deb.rkslot.nl any main"
+    state: present

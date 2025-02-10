@@ -1,0 +1,5 @@
+- name: Raphson
+  hosts: raphson
+
+  roles:
+    - role: ../roles/runitor

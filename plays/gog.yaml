@@ -2,7 +2,7 @@
   hosts: gog_group
 
   roles:
-    - role: base
+    - role: ../roles/base
 
   tasks:
     - name: Create users
