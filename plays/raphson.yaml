@@ -3,7 +3,9 @@
 
   roles:
     - role: ../roles/base
+    - role: ../roles/backports
     - role: ../roles/runitor
+    - role: ../roles/docker
 
   tasks:
     - name: badminton cron
