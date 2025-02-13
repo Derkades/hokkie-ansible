@@ -1,0 +1,5 @@
+- name: Server
+  hosts: server
+
+  roles:
+    - ../roles/base

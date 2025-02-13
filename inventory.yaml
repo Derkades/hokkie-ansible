@@ -17,22 +17,24 @@ desktops:
   vars:
     ansible_user: raphson
 
-gog_group:
+hokkie:
   hosts:
+    server:
+      ansible_host: 10.131.12.2
+      ansible_user: root
     gog:
       ansible_host: 10.131.12.19
       ansible_user: root
-  vars:
-    users:
-      - rslot
-      - dkoomen
-      - sangevare
-      - isanthagens
-      - lwijnsma
-      - dvgog
-      - mangevare
-      - jhasselaar
-      - mvalks
+      users:
+        - rslot
+        - dkoomen
+        - sangevare
+        - isanthagens
+        - lwijnsma
+        - dvgog
+        - mangevare
+        - jhasselaar
+        - mvalks
 
 vm:
   hosts:
