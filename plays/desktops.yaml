@@ -15,11 +15,11 @@
 
     - name: rpmfusion
       include_role:
-        name: ../roles/rpmfusion
+        name: rpmfusion
 
     - name: Apply base configuration
       include_role:
-        name: ../roles/base
+        name: base
 
     - name: Install packages
       become: true
@@ -52,15 +52,15 @@
 
     - name: ceph
       include_role:
-        name: ../roles/ceph-desktops
+        name: ceph-desktops
 
     - name: vscode
       include_role:
-        name: ../roles/vscode
+        name: vscode
 
     - name: boot splash screen
       include_role:
-        name: ../roles/raphson-boot
+        name: raphson-boot
       when: inventory_hostname != "kledertv"
 
     - name: Add Flathub

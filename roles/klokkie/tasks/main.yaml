@@ -1,0 +1,20 @@
+---
+
+- name: install packages
+  become: true
+  package:
+    name:
+      - python3-termcolor
+      - python3-pyfiglet
+
+- name: install script
+  become: true
+  copy:
+    src: klokkie.py
+    dest: /usr/local/bin/klokkie
+    mode: '755'
+
+- name: install in profile
+  lineinfile:
+    path: .profile
+    line: /usr/local/bin/klokkie

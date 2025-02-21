@@ -26,6 +26,7 @@ LAN is `10.131.12.0/23`, waarvan `10.131.12.0/24` gebruikt wordt voor vaste IP a
 | 10.131.12.20  | rapshon VM
 | 10.131.12.21  | 106 forum VM
 | 10.131.12.22  | jenkins VM
+| 10.131.12.23  | kelder klokkie
 | 10.131.12.100 | links (kelder desktop)
 | 10.131.12.101 | rechts (kelder desktop)
 | 10.131.12.102 | horrie (muziek desktop)

@@ -44,3 +44,10 @@ vm:
     raphson_vm:
       ansible_host: 10.131.12.20
       ansible_user: root
+
+klokkie:
+  hosts:
+    kelderklokkie:
+      ansible_host: 10.131.12.23
+  vars:
+    ansible_user: klokkie

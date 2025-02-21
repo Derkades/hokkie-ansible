@@ -2,7 +2,7 @@
 
 - name: add derkades repo
   include_role:
-    name: ../roles/derkades_repo
+    name: derkades_repo
 
 - name: install runitor
   apt:

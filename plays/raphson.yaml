@@ -2,10 +2,10 @@
   hosts: raphson_vm
 
   roles:
-    - role: ../roles/base
-    - role: ../roles/backports
-    - role: ../roles/runitor
-    - role: ../roles/docker
+    - role: base
+    - role: backports
+    - role: runitor
+    - role: docker
 
   tasks:
     - name: badminton cron

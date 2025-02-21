@@ -16,7 +16,6 @@
       ansible.builtin.shell:
         cmd: 'dnf --assumeyes offline-upgrade download'
 
-    - name: Reboot to install updates
       become: true
       ansible.builtin.shell:
         cmd: 'dnf --assumeyes offline-upgrade reboot'
