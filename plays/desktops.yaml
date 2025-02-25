@@ -44,6 +44,7 @@
           - kde-connect
           - thunderbird
           - cura
+          - distrobox
         state: present
 
     - name: kde
