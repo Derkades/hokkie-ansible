@@ -34,7 +34,7 @@ Verzamel specs naar een specs.txt bestand in je home dir:
 ansible-playbook plays/specs.yaml
 ```
 
-Updates doen:
+Updaten naar nieuwe Fedora versie:
 ```
 ansible-playbook plays/desktops-upgrade.yaml
 ```
@@ -49,7 +49,6 @@ ansible-playbook plays/gog.yaml
 ansible-playbook plays/gog.yaml
 ```
 
-
 ## Installatie desktops (en laptops)
 
 Het proces gaat als volgt:
@@ -58,5 +57,6 @@ Het proces gaat als volgt:
  2. Selecteer "Raphson desktop installatie" in het boot menu
  3. Een Fedora installatie wordt gestart met de kickstartconfiguratie uit deze git repository (kickstart.cfg)
  4. De kickstart configuratie installeert Fedora met Plasma desktop op de grootste schijf in de PC. Er wordt een `raphson` gebruiker gemaakt zonder wachtwoord. Er wordt een SSH key geïnstalleerd zodat de PC later ingesteld kan worden met ansible.
- 5. Als dit een nieuwe PC is, moet een DHCP-reservering gemaakt worden in de TP-link router en moet het nieuwe IP adres van de computer toegevoegd worden aan inventory.yaml
+ 5. Als dit een nieuwe PC is, moet een DHCP-reservering gemaakt worden in de TP-link router. Zie https://projects.raphson.nl/wiki/netwerk/
+ 6. Voeg het IP adres toe aan inventory.yaml
  6. Uiteindelijk kan via Ansible het systeem voor de rest ingesteld worden.
