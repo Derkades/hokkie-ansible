@@ -1,0 +1,18 @@
+- name: Mount /mnt/share
+  become: true
+  ansible.posix.mount:
+    src: "10.131.12.2:/snel/share"
+    path: "/mnt/share"
+    state: mounted
+    fstype: nfs
+
+# TODO bind mounts to /mnt/share?
+- name: Mount directories in home
+  become: true
+  ansible.posix.mount:
+    src: "10.131.12.2:/snel/share/{{ item }}"
+    path: "/home/raphson/{{ item }}"
+    state: mounted
+    fstype: nfs
+    opts: nofail
+  loop: [Documents, Downloads, Pictures, Desktop, Videos, Music, Arduino]

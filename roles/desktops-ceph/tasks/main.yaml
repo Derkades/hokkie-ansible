@@ -1,21 +1,21 @@
 ---
-- name: install packages
-  package:
+- name: Install packages
+  ansible.posix.package:
     name: ceph-common
 
-- name: install configuration
-  become: yes
-  copy:
+- name: Install configuration
+  become: true
+  ansible.posix.copy:
     src: ceph.conf
     dest: /etc/ceph/ceph.conf
 
-- name: install keyring
-  become: yes
-  copy:
+- name: Install keyring
+  become: true
+  ansible.posix.copy:
     src: ceph.client.desktops.keyring
     dest: /etc/ceph/client.desktops.keyring
 
-- name: mount /mnt/share
+- name: Mount /mnt/share
   become: true
   ansible.posix.mount:
     src: :/desktops
@@ -24,11 +24,11 @@
     fstype: ceph
     opts: name=desktops
 
-- name: mount directories in home
+- name: Mount directories in home
   become: true
   ansible.posix.mount:
-    src: :/desktops/{{ item }}
-    path: /home/raphson/{{item}}
+    src: ':/desktops/{{ item }}'
+    path: '/home/raphson/{{ item }}'
     state: mounted
     fstype: ceph
     opts: name=desktops

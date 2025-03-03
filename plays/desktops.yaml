@@ -26,8 +26,8 @@
     - update
     - rpmfusion
     - mpv
-    - raphson_kde
-    - ceph-desktops
+    - desktops-nfs
+    - desktops-kde
     - vscode
     - flathub
     - snap4arduino
