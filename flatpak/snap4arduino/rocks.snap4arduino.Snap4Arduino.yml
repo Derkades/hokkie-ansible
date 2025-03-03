@@ -1,0 +1,32 @@
+id: org.snap4arduino.Snap4Arduino
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+command: '/app/snap4arduino/run'
+rename-desktop-file: Snap4Arduino.desktop
+rename-icon: snap4arduino
+modules:
+  - name: Snap4Arduino
+    buildsystem: simple
+    build-commands:
+      - cp -a snap4arduino /app/snap4arduino
+      - install -Dm755 Snap4Arduino.desktop -t /app/share/applications
+      - |
+        for size in 16 32 48 128 256; do
+          install -Dm644 "snap4arduino/icons/${size}x${size}x32.png" \
+          "/app/share/icons/hicolor/${size}x${size}/apps/snap4arduino.png";
+        done
+    sources:
+      - type: file
+        path: Snap4Arduino.desktop
+      - type: archive
+        url: https://github.com/bromagosa/Snap4Arduino/releases/download/9.1.1/Snap4Arduino_desktop-gnu-64_9.1.1.tar.gz
+        sha256: 9e19fce19f83b54a34976c388a352005955880baa3b666762a99dc359d642600
+        dest: snap4arduino
+        only_arches:
+          - x86_64
+finish-args:
+  - --socket=x11
+  - --device=dri
+  - --share=ipc
+  - --device=all

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Icon=rocks.snap4arduino.Snap4Arduino
+Exec=/app/snap4arduino/run
+Name=Snap4Arduino
+Name[en]=Snap4Arduino
+GenericName=Use Snap! to control Arduino boards. Arduino goes lambda!
+GenericName[en]=Use Snap! to control Arduino boards. Arduino goes lambda!
+Categories=Development;Education;IDE;Electronics
