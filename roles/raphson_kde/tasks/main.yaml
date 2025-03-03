@@ -4,9 +4,10 @@
 
 - name: Copy wallpaper
   become: true
-  copy:
+  ansible.builtin.copy:
     src: bg.png
     dest: /usr/local/share/bg.png
+    mode: '644'
 
 - name: Set wallpaper
   community.general.kdeconfig:

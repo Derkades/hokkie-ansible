@@ -1,5 +1,4 @@
 ---
-
 - name: Install Microsoft key
   become: true
   ansible.builtin.rpm_key:
@@ -9,7 +8,7 @@
 - name: Install Microsoft repository
   become: true
   ansible.builtin.copy:
-    content: "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc"
+    src: vscode.repo
     dest: /etc/yum.repos.d/vscode.repo
 
 - name: Install package

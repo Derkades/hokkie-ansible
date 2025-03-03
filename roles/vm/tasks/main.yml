@@ -1,0 +1,21 @@
+---
+- name: Set cmdline
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="console=ttyS0"'
+    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT'
+  notify: grub
+
+- name: Install cloud kernel
+  ansible.builtin.apt:
+    name: linux-image-cloud-amd64
+
+- name: Remove generic kernel
+  ansible.builtin.apt:
+    name: linux-image-amd64
+    state: absent
+
+- name: Remove os-prober
+  ansible.builtin.apt:
+    name: os-prober
+    state: absent

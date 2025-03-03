@@ -1,0 +1,15 @@
+---
+- name: Update flatpaks
+  become: true
+  ansible.builtin.command:
+    cmd: flatpak upgrade -y
+
+- name: Download updates
+  become: true
+  ansible.builtin.command:
+    cmd: pkcon update --only-download
+
+- name: Trigger updates on next reboot
+  become: true
+  ansible.builtin.command:
+    cmd: pkcon offline-trigger

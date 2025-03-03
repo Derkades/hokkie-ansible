@@ -1,0 +1,5 @@
+- name: Local test
+  hosts: local
+
+  roles:
+    - role: rpmfusion

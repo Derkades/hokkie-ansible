@@ -1,39 +1,52 @@
 - name: Raphson
   hosts: desktops
 
-  tasks:
+  pre_tasks:
     - name: Notify
-      shell:
+      ansible.builtin.command:
         cmd: "notify-send --app-name 'Hokkie Ansible' 'Systeem wordt bijgewerkt'"
-      changed_when: False
+      changed_when: false
 
       # In Fedora 41 python3-libdnf5 must be manually installed first
-    - name: Install libdnf5
-      become: true
-      shell:
-        cmd: dnf --assumeyes install python3-libdnf5
+      # is als het goed is niet meer nodig
+    # - name: Install libdnf5
+    #   become: true
+    #   ansible.builtin.command:
+    #     cmd: dnf --assumeyes install python3-libdnf5
 
-    - name: rpmfusion
-      include_role:
-        name: rpmfusion
+  post_tasks:
+    - name: Notify finished
+      ansible.builtin.command:
+        cmd: "notify-send --app-name 'Hokkie Ansible' 'Klaar'"
+      changed_when: false
 
-    - name: Apply base configuration
-      include_role:
-        name: base
+  roles:
+    - base
+    - ssh
+    - update
+    - rpmfusion
+    - mpv
+    - raphson_kde
+    - ceph-desktops
+    - vscode
+    - flathub
+    - snap4arduino
 
+  tasks:
     - name: Install packages
       become: true
-      package:
+      ansible.builtin.package:
         name:
           - firefox
           - libreoffice
-          - mpv
           - okular
           - keepassxc
           - filezilla
           - minetest
           - openscad
           - kate
+          - krename
+          - filelight
           - torbrowser-launcher
           - screen
           - prusa-slicer
@@ -45,37 +58,13 @@
           - thunderbird
           - cura
           - distrobox
+          - pdfmerge
         state: present
 
-    - name: kde
-      include_tasks:
-        file: ../tasks/kde.yaml
-
-    - name: ceph
-      include_role:
-        name: ceph-desktops
-
-    - name: vscode
-      include_role:
-        name: vscode
-
-    - name: boot splash screen
-      include_role:
+    - name: Boot splash screen
+      ansible.builtin.include_role:
         name: raphson-boot
       when: inventory_hostname != "kledertv"
-
-    - name: Add Flathub
-      become: true
-      community.general.flatpak_remote:
-        name: flathub
-        flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
-        state: present
-
-    - name: Remove Fedora Flatpaks
-      become: true
-      community.general.flatpak_remote:
-        name: fedora
-        state: absent
 
     - name: Install Flatpak packages
       become: true
@@ -85,23 +74,3 @@
           - org.openstreetmap.josm
           - com.github.qarmin.czkawka
           - org.nicotine_plus.Nicotine
-
-    - name: Download Snap4Arduino
-      get_url:
-        url: 'https://downloads.rkslot.nl/software/snap4arduino.flatpak'
-        dest: /tmp/snap4arduino.flatpak
-
-    - name: Install Snap for Arduino
-      become: true
-      shell:
-        cmd: flatpak install -y /tmp/snap4arduino.flatpak || true
-
-    # - name: Enable mpv hardware decoding
-    #   copy:
-    #     content: 'hwdec=auto'
-    #     dest: '/home/raphson/.config/mpv/mpv.conf'
-
-    - name: Notify
-      shell:
-        cmd: "notify-send --app-name 'Hokkie Ansible' 'Klaar'"
-      changed_when: False

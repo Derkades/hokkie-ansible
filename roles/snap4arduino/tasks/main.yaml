@@ -1,0 +1,22 @@
+---
+- name: Check if snap4arduino is installed
+  ansible.builtin.command:
+    cmd: flatpak info org.snap4arduino.Snap4Arduino
+  register: check
+  ignore_errors: true  # exit code 1 is fine, we check for it later
+  changed_when: false  # does not change anything
+
+- name: Download Snap4Arduino
+  become: true
+  ansible.builtin.get_url:
+    url: 'https://downloads.rkslot.nl/software/snap4arduino.flatpak'
+    dest: /tmp/snap4arduino.flatpak
+    mode: 600
+  when: check.rc != 0
+
+- name: Install Snap for Arduino
+  become: true
+  ansible.builtin.command:
+    cmd: flatpak install -y /tmp/snap4arduino.flatpak
+  when: check.rc != 0
+  changed_when: true

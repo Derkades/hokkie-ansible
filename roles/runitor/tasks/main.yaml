@@ -1,5 +1,5 @@
 ---
-
+# TODO install straight from GitHub
 - name: add derkades repo
   include_role:
     name: derkades_repo

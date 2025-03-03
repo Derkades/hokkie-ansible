@@ -3,8 +3,8 @@
   become: true
   ansible.builtin.dnf:
     name:
-      - 'https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ansible_distribution_version}}.noarch.rpm'
-      - 'https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ansible_distribution_version}}.noarch.rpm'
+      - 'https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_version }}.noarch.rpm'
+      - 'https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_version }}.noarch.rpm'
     state: present
     disable_gpg_check: true
 
@@ -14,9 +14,17 @@
     name: ffmpeg
     allowerasing: true
 
-# disabled, broken in F41
-# - name: Enable H264 repository
-#   become: true
-#   community.general.dnf_config_manager:
-#     name: fedora-cisco-openh264
-#     state: enabled
+# dnf_config_manager is broken on F41
+# https://github.com/ansible-collections/community.general/issues/9127
+- name: Enable H264 repository (F41)
+  become: true
+  ansible.builtin.command:
+    cmd: dnf config-manager setopt fedora-cisco-openh264.enabled=1
+  when: 'ansible_distribution_version == "41"'
+
+- name: Enable H264 repository (F40)
+  become: true
+  community.general.dnf_config_manager:
+    name: fedora-cisco-openh264
+    state: enabled
+  when: 'ansible_distribution_version == "40"'

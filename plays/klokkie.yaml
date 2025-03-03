@@ -3,6 +3,7 @@
   gather_facts: false
 
   roles:
-    - role: base
-    - role: klokkie
-    - role: debian_update
+    - base
+    - ssh
+    - update
+    - klokkie

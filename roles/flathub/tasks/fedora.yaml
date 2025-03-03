@@ -1,0 +1,13 @@
+---
+- name: Add Flathub
+  become: true
+  community.general.flatpak_remote:
+    name: flathub
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    state: present
+
+- name: Remove Fedora Flatpaks
+  become: true
+  community.general.flatpak_remote:
+    name: fedora
+    state: absent

@@ -1,0 +1,10 @@
+- name: Install mpv
+  become: true
+  ansible.builtin.package:
+    name: mpv
+
+- name: Enable hardware decoding
+  ansible.builtin.copy:
+    src: mpv.conf
+    dest: '.config/mpv/mpv.conf'
+    mode: "644"

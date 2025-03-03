@@ -1,0 +1,11 @@
+---
+- name: Update
+  become: true
+  ansible.builtin.apt:
+    upgrade: dist
+  register: update
+
+# - name: Reboot
+#   become: true
+#   reboot:
+#   when: update.changed

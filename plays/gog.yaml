@@ -2,14 +2,15 @@
   hosts: gog
 
   roles:
-    - role: base
+    - base
+    - ssh
 
   tasks:
     - name: Create users
       ansible.builtin.user:
         name: "{{ item }}"
         groups: users
-        create_home: yes
+        create_home: true
         shell: /bin/bash
       loop: "{{ users }}"
 

@@ -1,24 +1,28 @@
 ---
 - name: Check current plymouth theme
   become: true
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: 'plymouth-set-default-theme'
+  changed_when: false
   register: check
 
 - name: Change plymouth theme
   when: check.stdout != "spinner"
   become: true
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: 'plymouth-set-default-theme spinner'
+  changed_when: true
 
 - name: Update initrd
   when: check.stdout != "spinner"
   become: true
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: 'dracut --force'
+  changed_when: true
 
 - name: Set raphson logo
   become: true
   ansible.builtin.copy:
     src: raphson-small.png
     dest: /usr/share/plymouth/themes/spinner/watermark.png
+    mode: '644'

@@ -3,4 +3,6 @@
 
   roles:
     - role: base
+    - role: ssh
+    - role: vm
     - role: flarum

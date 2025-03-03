@@ -1,0 +1,71 @@
+- name: Robin
+  hosts: robin
+
+  roles:
+    - base
+    - update
+    - mpv
+    - vscodium
+
+  tasks:
+    - name: Install packages
+      become: true
+      ansible.builtin.package:
+        name:
+          - ansible
+          - aspell-en
+          - aspell-nl
+          - arm-none-eabi-newlib # voor hoverboards
+          - audacity
+          - chromium
+          - cifs-utils
+          - cmake
+          - codium
+          - dolphin-emu
+          - esptool
+          - ffmpeg
+          - gparted
+          - iperf3
+          - java-1.8.0-openjdk-devel
+          - java-11-openjdk-devel
+          - java-17-openjdk-devel
+          - java-21-openjdk-devel
+          - keepassxc
+          - kid3
+          - kleopatra
+          - libreoffice-kf6
+          - openscad
+          - pdfmerge
+          - podman
+          - distrobox
+          - prusa-slicer
+          - pylint
+          - poedit
+          - skanpage
+          - stress
+          - sqlite
+          - sqlitebrowser
+          - sqlite-tools
+          - tio
+          - thunderbird
+          - telegram-desktop
+          - unzip
+          - vlc
+          - wireshark
+          - yt-dlp
+          - yubikey-manager-qt
+
+    - name: Install Flatpak packages
+      become: true
+      community.general.flatpak:
+        name:
+          - cc.arduino.arduinoide
+          - com.discordapp.Discord
+          - com.github.iwalton3.jellyfin-media-player
+          - com.github.qarmin.czkawka
+          - net.cozic.joplin_desktop
+          - no.mifi.losslesscut
+          - org.eclipse.Java
+          - org.openstreetmap.josm
+          - org.prismlauncher.PrismLauncher
+          - org.signal.Signal

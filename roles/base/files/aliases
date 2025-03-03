@@ -1,0 +1,44 @@
+# ls
+alias ls='ls --color=auto'
+alias ll='ls --color=auto -lah'
+
+# docker compose
+alias dc='docker compose'
+alias dct='dc logs -f --tail=100'
+alias dctl='dc logs -f --tail=1000'
+alias dcp='dc pull'
+alias dcu='dc up -d --remove-orphans'
+alias dcr='dc restart'
+alias dcc='dc up -d --remove-orphans --force-recreate'
+alias dce='dc exec'
+alias dcb='dc build'
+alias dcs='dc stop'
+alias dcd='dc down'
+alias dps='dc ps'
+alias drm='dc rm -sf'
+dca() {
+    dc logs --tail=500 && docker attach $(dc ps -q $1)
+}
+
+# colored ip
+alias ip="ip -c"
+
+# iommu
+lsiommu(){
+    for g in `find /sys/kernel/iommu_groups/* -maxdepth 0 -type d | sort -V`; do
+        echo "IOMMU Group ${g##*/}:"
+        for d in $g/devices/*; do
+            echo -e "\t$(lspci -nns ${d##*/})"
+        done;
+    done;
+}
+
+lsusbiommu(){
+    for usb_ctrl in /sys/bus/pci/devices/*/usb*; do
+        pci_path=${usb_ctrl%/*}
+        iommu_group=$(readlink $pci_path/iommu_group)
+        echo "Bus $(cat $usb_ctrl/busnum) --> ${pci_path##*/} (IOMMU group ${iommu_group##*/})" lsusb -s ${usb_ctrl#*/usb}:
+        lsusb -s ${usb_ctrl#*/usb}:
+        echo
+    done
+}

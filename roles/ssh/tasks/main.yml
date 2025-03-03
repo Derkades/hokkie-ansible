@@ -1,0 +1,13 @@
+---
+- name: Install SSH keys
+  ansible.builtin.copy:
+    src: authorized_keys
+    dest: .ssh/authorized_keys
+
+- name: Disable password authentication
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    line: PasswordAuthentication no
+    regexp: PasswordAuthentication
+  notify: restart-sshd
