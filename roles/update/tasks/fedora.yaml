@@ -3,11 +3,15 @@
   become: true
   ansible.builtin.command:
     cmd: flatpak upgrade -y
+  register: flatpak_update
+  changed_when: "'Nothing to do' not in flatpak_update.stdout"
 
 - name: Download updates
   become: true
   ansible.builtin.command:
     cmd: pkcon update --only-download
+  ignore_errors: true  # returns error when there are no updates available
+  register: pkcon_update
 
 - name: Trigger updates on next reboot
   become: true
