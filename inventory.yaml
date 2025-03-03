@@ -60,6 +60,8 @@ robin:
       ansible_host: 10.131.6.9
   vars:
     ansible_user: robin
+    admin_name: Robin Slot
+    admin_email: robin@rslot.nl
 
 local:
   hosts:

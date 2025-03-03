@@ -1,0 +1,23 @@
+- name: Set name
+  community.general.git_config:
+    name: user.name
+    value: "{{ admin_name }}"
+    scope: global
+
+- name: Set email
+  community.general.git_config:
+    name: user.email
+    value: "{{ admin_email }}"
+    scope: global
+
+- name: Set rebase
+  community.general.git_config:
+    name: pull.rebase
+    value: 'true'
+    scope: global
+
+- name: Set default branch
+  community.general.git_config:
+    name: init.defaultbranch
+    value: main
+    scope: global

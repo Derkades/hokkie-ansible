@@ -6,6 +6,7 @@
     - update
     - mpv
     - vscodium
+    - git-config
 
   tasks:
     - name: Install packages
@@ -13,6 +14,7 @@
       ansible.builtin.package:
         name:
           - ansible
+          - ansible-lint
           - aspell-en
           - aspell-nl
           - arm-none-eabi-newlib # voor hoverboards
